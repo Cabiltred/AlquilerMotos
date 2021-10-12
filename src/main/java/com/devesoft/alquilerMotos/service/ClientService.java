@@ -26,15 +26,15 @@ public class ClientService {
         return clientRepository.getAll();
     } 
     
-    public Optional<Client> getClient(int id){
-        return clientRepository.getClient(id);
+    public Optional<Client> getidClient(int id){
+        return clientRepository.getidClient(id);
     }
     
     public Client save (Client client){
-        if(client.getId()==null){
+        if(client.getIdClient()==null){
             return clientRepository.save(client);
         }else{
-            Optional<Client> claux = clientRepository.getClient(client.getId());
+            Optional<Client> claux = clientRepository.getidClient(client.getIdClient());
             if (claux.isEmpty()) {
                 return clientRepository.save(client);
             } else {

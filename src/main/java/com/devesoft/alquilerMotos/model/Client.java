@@ -4,12 +4,10 @@
  */
 package com.devesoft.alquilerMotos.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.util.List;
+import javax.persistence.*;
 
 /**
  *
@@ -20,26 +18,27 @@ import javax.persistence.Table;
 public class Client implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @Column(name= "idClient")
+    private Integer idClient;
     private String email;
     private String password;
     private String name;
     private Integer age;
+    
+    @OneToMany(cascade = {CascadeType.PERSIST},mappedBy = "client")
+    @JsonIgnoreProperties("client")
+    public List<Message> messages;
+    
+    @OneToMany(cascade = {CascadeType.PERSIST},mappedBy = "client")
+    @JsonIgnoreProperties("client")
+    public List<Reservation> reservations;
 
-    public Integer getId() {
-        return id;
+    public Integer getIdClient() {
+        return idClient;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setIdClient(Integer idClient) {
+        this.idClient = idClient;
     }
 
     public String getEmail() {
@@ -50,6 +49,22 @@ public class Client implements Serializable{
         this.email = email;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public Integer getAge() {
         return age;
     }
@@ -58,13 +73,20 @@ public class Client implements Serializable{
         this.age = age;
     }
 
-    public String getPassword() {
-        return password;
+    public List<Message> getMessages() {
+        return messages;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setMessages(List<Message> messages) {
+        this.messages = messages;
     }
-    
+
+    public List<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(List<Reservation> reservations) {
+        this.reservations = reservations;
+    }
     
 }

@@ -32,8 +32,8 @@ public class MessageController {
     }
     
     @GetMapping("/{id}")
-    public Optional<Message> getMessage (@PathVariable("id") int id){
-        return messageService.getMessage(id);
+    public Optional<Message> getidMessage (@PathVariable("id") int id){
+        return messageService.getidMessage(id);
     }
     
     @PostMapping("/save")

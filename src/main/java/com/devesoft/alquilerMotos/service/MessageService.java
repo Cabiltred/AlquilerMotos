@@ -26,15 +26,15 @@ public class MessageService {
         return messageRepository.getAll();
     }
     
-    public Optional<Message> getMessage(int id){
-        return messageRepository.getMessage(id);
+    public Optional<Message> getidMessage(int id){
+        return messageRepository.getidMessage(id);
     }
     
     public Message save (Message message){
-        if(message.getId()==null){
+        if(message.getIdMessage()==null){
             return messageRepository.save(message);
         }else{
-            Optional<Message> mgaux = messageRepository.getMessage(message.getId());
+            Optional<Message> mgaux = messageRepository.getidMessage(message.getIdMessage());
             if (mgaux.isEmpty()) {
                 return messageRepository.save(message);
             } else {

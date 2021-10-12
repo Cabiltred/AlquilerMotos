@@ -4,12 +4,9 @@
  */
 package com.devesoft.alquilerMotos.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  *
@@ -20,15 +17,28 @@ import javax.persistence.Table;
 public class Message implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @Column(name= "idMessage")
+    private Integer idMessage;
+    
+    @Column(name = "messageText", length = 250)
     private String messageText;
+    
+    @ManyToOne
+    @JoinColumn(name="motorbike_id")
+    @JsonIgnoreProperties({"messages", "reservations"})
+    private Motorbike motorbike;
+    
+    @ManyToOne
+    @JoinColumn (name="client_id")
+    @JsonIgnoreProperties({"messages", "reservations"})
+    private Client client;
 
-    public Integer getId() {
-        return id;
+    public Integer getIdMessage() {
+        return idMessage;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdMessage(Integer idMessage) {
+        this.idMessage = idMessage;
     }
 
     public String getMessageText() {
@@ -39,4 +49,21 @@ public class Message implements Serializable{
         this.messageText = messageText;
     }
 
+    public Motorbike getMotorbike() {
+        return motorbike;
+    }
+
+    public void setMotorbike(Motorbike motorbike) {
+        this.motorbike = motorbike;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    
 }

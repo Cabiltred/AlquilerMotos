@@ -4,13 +4,10 @@
  */
 package com.devesoft.alquilerMotos.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  *
@@ -21,16 +18,35 @@ import javax.persistence.Table;
 public class Reservation implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    
+    @Column(name= "idReservation")
+    private Integer idReservation;
+    
+    @Column(name = "startDate", length = 250)
     private Date startDate;
+    
+    @Column(name = "devolutionDate", length = 250)
     private Date devolutionDate;
+    
+    @Column(name="status")
+    private String status = "created";
+    
+    @ManyToOne
+    @JoinColumn (name="motorbike_id")
+    @JsonIgnoreProperties({"reservations", "messages:client"})
+    private Motorbike motorbike;
+    
+    @ManyToOne
+    @JoinColumn (name="client_id")
+    @JsonIgnoreProperties({"reservations", "messages"})
+    private Client client;
 
-    public Integer getId() {
-        return id;
+    public Integer getIdReservation() {
+        return idReservation;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdReservation(Integer idReservation) {
+        this.idReservation = idReservation;
     }
 
     public Date getStartDate() {
@@ -49,6 +65,29 @@ public class Reservation implements Serializable{
         this.devolutionDate = devolutionDate;
     }
 
-    
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Motorbike getMotorbike() {
+        return motorbike;
+    }
+
+    public void setMotorbike(Motorbike motorbike) {
+        this.motorbike = motorbike;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
     
 }

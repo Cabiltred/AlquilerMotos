@@ -22,7 +22,7 @@ public class ClientRepository {
     
     public List<Client> getAll() { return (List<Client>) clientCrudRepository.findAll(); }
     
-    public Optional<Client> getClient(int id) { return clientCrudRepository.findById(id); }
+    public Optional<Client> getidClient(int id) { return clientCrudRepository.findById(id); }
     
     public Client save(Client client) { return clientCrudRepository.save(client); }
     

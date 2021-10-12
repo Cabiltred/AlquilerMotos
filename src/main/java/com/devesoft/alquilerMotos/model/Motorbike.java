@@ -4,12 +4,10 @@
  */
 package com.devesoft.alquilerMotos.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.util.List;
+import javax.persistence.*;
 
 /**
  *
@@ -26,6 +24,19 @@ public class Motorbike implements Serializable{
     private Integer year;
     private String description;
 
+    @ManyToOne
+    @JoinColumn(name="categoryId")//aca nombra a llave foranea como categoryid
+    @JsonIgnoreProperties("motorbikes")//esta sentencia ignora una vez atrae la categoria ya ignora a motorbikes
+    private Category category;
+    
+    @OneToMany(cascade = {CascadeType.PERSIST},mappedBy = "motorbike")
+    @JsonIgnoreProperties("motorbike")
+    public List<Message> messages;
+    
+    @OneToMany (cascade = {CascadeType.PERSIST},mappedBy = "motorbike")
+    @JsonIgnoreProperties("motorbike")
+    public List<Reservation> reservations;
+    
     public Integer getId() {
         return id;
     }
@@ -34,20 +45,20 @@ public class Motorbike implements Serializable{
         this.id = id;
     }
 
-    public String getBrand() {
-        return brand;
-    }
-
-    public void setBrand(String brand) {
-        this.brand = brand;
-    }
-
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
     }
 
     public Integer getYear() {
@@ -65,6 +76,14 @@ public class Motorbike implements Serializable{
     public void setDescription(String description) {
         this.description = description;
     }
-    
-    
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+
 }

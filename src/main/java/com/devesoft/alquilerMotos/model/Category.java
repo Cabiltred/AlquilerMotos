@@ -4,12 +4,10 @@
  */
 package com.devesoft.alquilerMotos.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 /**
  *
@@ -23,6 +21,10 @@ public class Category implements Serializable{
     private Integer id;
     private String name;
     private String description;
+
+    @OneToMany(cascade = {CascadeType.PERSIST},mappedBy = "category")//si cambio algo que lo revise desde ahi, y busca el atributo que va a relacionar
+    @JsonIgnoreProperties("category")//ignora a la categoria despues que ubica la moto
+    public List<Motorbike> motorbikes;
 
     public Integer getId() {
         return id;
@@ -47,5 +49,13 @@ public class Category implements Serializable{
     public void setDescription(String description) {
         this.description = description;
     }
-    
+
+    public List<Motorbike> getMotorbikes() {
+        return motorbikes;
+    }
+
+    public void setMotorbikes(List<Motorbike> motorbikes) {
+        this.motorbikes = motorbikes;
+    }
+     
 }

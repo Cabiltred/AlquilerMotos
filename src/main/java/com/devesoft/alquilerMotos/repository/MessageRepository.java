@@ -22,7 +22,7 @@ public class MessageRepository {
     
     public List<Message> getAll() { return (List<Message>) messageCrudRepository.findAll(); }
     
-    public Optional<Message> getMessage(int id) { return messageCrudRepository.findById(id); }
+    public Optional<Message> getidMessage(int id) { return messageCrudRepository.findById(id); }
     
     public Message save(Message message) { return messageCrudRepository.save(message); }
     

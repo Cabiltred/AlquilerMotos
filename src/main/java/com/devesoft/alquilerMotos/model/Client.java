@@ -20,8 +20,11 @@ public class Client implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name= "idClient")
     private Integer idClient;
+    @Column(name = "email", length = 45)
     private String email;
+    @Column(name = "password", length = 45)
     private String password;
+    @Column(name = "name", length = 250)
     private String name;
     private Integer age;
     

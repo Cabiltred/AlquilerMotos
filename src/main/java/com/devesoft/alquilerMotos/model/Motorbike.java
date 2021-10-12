@@ -19,9 +19,13 @@ public class Motorbike implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(name = "name", length = 45)
     private String name;
+    @Column(name = "brand", length = 45)
     private String brand;
+    @Column(name = "year", length = 4)
     private Integer year;
+    @Column(name = "desciption", length = 250)
     private String description;
 
     @ManyToOne
@@ -30,11 +34,11 @@ public class Motorbike implements Serializable{
     private Category category;
     
     @OneToMany(cascade = {CascadeType.PERSIST},mappedBy = "motorbike")
-    @JsonIgnoreProperties("motorbike")
+    @JsonIgnoreProperties({"motorbike","client"})
     public List<Message> messages;
     
     @OneToMany (cascade = {CascadeType.PERSIST},mappedBy = "motorbike")
-    @JsonIgnoreProperties("motorbike")
+    @JsonIgnoreProperties({"motorbike", "client"})
     public List<Reservation> reservations;
     
     public Integer getId() {

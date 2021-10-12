@@ -7,6 +7,7 @@ package com.devesoft.alquilerMotos.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.*;
 
 /**
@@ -40,6 +41,8 @@ public class Reservation implements Serializable{
     @JoinColumn (name="client_id")
     @JsonIgnoreProperties({"reservations", "messages"})
     private Client client;
+    
+    private String score;
 
     public Integer getIdReservation() {
         return idReservation;
@@ -89,5 +92,12 @@ public class Reservation implements Serializable{
         this.client = client;
     }
 
+    public String getScore() {
+        return score;
+    }
+
+    public void setScore(String score) {
+        this.score = score;
+    }
     
 }

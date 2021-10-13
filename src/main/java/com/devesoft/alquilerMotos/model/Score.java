@@ -21,11 +21,15 @@ public class Score implements Serializable{
     @Column(name= "idScore")
     private Integer idScore;
     
-    @Column(name = "valueScore", length = 1)
-    private Integer valueScore;
+    @Column(name = "messageText", length = 250)
+    private String messageText;
     
-    @Column(name = "valueMessage", length = 250)
-    private String valueMessage;
+    @Column(name = "stars", length = 1)
+    private Integer stars;
+    
+    @OneToOne
+    @JsonIgnoreProperties("score")
+    private Reservation reservation;
 
     public Integer getIdScore() {
         return idScore;
@@ -35,20 +39,28 @@ public class Score implements Serializable{
         this.idScore = idScore;
     }
 
-    public Integer getValueScore() {
-        return valueScore;
+    public String getMessageText() {
+        return messageText;
     }
 
-    public void setValueScore(Integer valueScore) {
-        this.valueScore = valueScore;
+    public void setMessageText(String messageText) {
+        this.messageText = messageText;
     }
 
-    public String getValueMessage() {
-        return valueMessage;
+    public Integer getStars() {
+        return stars;
     }
 
-    public void setValueMessage(String valueMessage) {
-        this.valueMessage = valueMessage;
+    public void setStars(Integer stars) {
+        this.stars = stars;
+    }
+
+    public Reservation getReservation() {
+        return reservation;
+    }
+
+    public void setReservation(Reservation reservation) {
+        this.reservation = reservation;
     }
     
 }

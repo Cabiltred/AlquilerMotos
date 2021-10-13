@@ -11,32 +11,68 @@ import javax.persistence.*;
 
 /**
  *
- * @author cabil
+ * @author Diana Chaves Beltran
+ */
+/**
+    *  Se anota a la clase Motorbike como una Entidad 
  */
 @Entity
+/**
+    *  La clase Motorbike es una tabla cuyo nombre en motorbike
+*/
 @Table(name = "motorbike")
+/**
+    *  La información de la tabla se puede utilizar gracias al implements Serializable
+*/
 public class Motorbike implements Serializable{
+    /**
+    *  Asignación del Id
+    */
     @Id
+    /**
+    *  Genera una clave primaria 
+    */
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    /**
+    *  Se crea variable Id
+    */
     private Integer id;
+    /**
+    *  Se crea variable name
+    */
     @Column(name = "name", length = 45)
     private String name;
+    /**
+    *  Se crea variable brand
+    */
     @Column(name = "brand", length = 45)
     private String brand;
+    /**
+    *  Se crea variable year
+    */
     @Column(name = "year", length = 4)
     private Integer year;
-    @Column(name = "desciption", length = 250)
+    /**
+    *  Se crea variable description
+    */
+    @Column(name = "description", length = 250)
     private String description;
-
+    /**
+    *  Se crea llave foranea categoryId
+    */
     @ManyToOne
     @JoinColumn(name="categoryId")//aca nombra a llave foranea como categoryid
     @JsonIgnoreProperties("motorbikes")//esta sentencia ignora una vez atrae la categoria ya ignora a motorbikes
     private Category category;
-    
+    /**
+    *  Se crea relacion messages
+    */
     @OneToMany(cascade = {CascadeType.PERSIST},mappedBy = "motorbike")
     @JsonIgnoreProperties({"motorbike","client"})
     public List<Message> messages;
-    
+    /**
+    *  Se crea relacion reservations
+    */
     @OneToMany (cascade = {CascadeType.PERSIST},mappedBy = "motorbike")
     @JsonIgnoreProperties({"motorbike", "client"})
     public List<Reservation> reservations;

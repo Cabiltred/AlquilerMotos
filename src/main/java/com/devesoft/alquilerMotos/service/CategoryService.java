@@ -42,4 +42,34 @@ public class CategoryService {
             }
         }
     }
+    
+    public Category update(Category category){
+        if(category.getId()!=null){
+            Optional<Category> cataux= categoryRepository.getCategory(category.getId());
+            if(!cataux.isEmpty()){
+                if(category.getName()!=null){
+                    cataux.get().setName(category.getName());
+                }
+                if(category.getDescription()!=null){
+                    cataux.get().setDescription(category.getDescription());
+                }
+                categoryRepository.save(cataux.get());
+                return cataux.get();
+            }else{
+                return category;
+            }
+        }else{
+            return category;
+        }
+    }
+    
+    public boolean deleteCategory(int id){
+        Optional<Category> caux=getCategory(id);
+        if(!caux.isEmpty()){
+            categoryRepository.delete(caux.get());
+            return true;
+        }
+        return false;
+    }
+    
 }

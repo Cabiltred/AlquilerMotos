@@ -40,4 +40,16 @@ public class MotorbikeController {
     public Motorbike save(@RequestBody Motorbike motorbike){
         return motorbikeService.save(motorbike);
     }
+    
+    @PutMapping("/update")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Motorbike update(@RequestBody Motorbike motorbike){
+        return motorbikeService.update(motorbike);
+    }
+    
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public boolean deleteMotorbike (@PathVariable("id") int id){
+        return motorbikeService.deleteMotorbike(id);
+    }
 }

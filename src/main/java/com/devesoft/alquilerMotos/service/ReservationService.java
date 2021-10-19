@@ -42,4 +42,36 @@ public class ReservationService {
             }
         }
     }
+    
+    public Reservation update (Reservation reservation){
+        if (reservation.getIdReservation()!=null) {
+            Optional<Reservation> reaux = reservationRepository.getidReservation(reservation.getIdReservation());
+            if (!reaux.isEmpty()) {
+                if(reservation.getStartDate()!=null){
+                    reaux.get().setStartDate(reservation.getStartDate());
+                }
+                if(reservation.getDevolutionDate()!=null){
+                    reaux.get().setDevolutionDate(reservation.getDevolutionDate());
+                }
+                if(reservation.getStatus()!=null){
+                    reaux.get().setStatus(reservation.getStatus());
+                }
+                reservationRepository.save(reaux.get());
+                return reaux.get();
+            } else {
+                return reservation;
+            }
+        }else {
+            return reservation;
+        }
+    }
+    
+        public boolean deleteReservation(int id){
+        Optional<Reservation> rvaux= getidReservation(id);
+        if(!rvaux.isEmpty()){
+            reservationRepository.delete(rvaux.get());
+            return true;
+        }
+        return false;
+    }
 }

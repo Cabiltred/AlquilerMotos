@@ -27,6 +27,18 @@ public class Score implements Serializable{
     @Column(name = "stars", length = 1)
     private Integer stars;
 
+    @OneToOne
+    @JsonIgnoreProperties("score")
+    private Reservation reservation;
+
+    public Reservation getReservation() {
+        return reservation;
+    }
+
+    public void setReservation(Reservation reservation) {
+        this.reservation = reservation;
+    }
+    
     public Integer getIdScore() {
         return idScore;
     }

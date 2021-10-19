@@ -40,4 +40,24 @@ public class ScoreService {
             }
         }
     }
+    
+    public Score update (Score score){
+        if (score.getIdScore()!=null) {
+            Optional<Score> scaux = scoreRepository.getidScore(score.getIdScore());
+            if (!scaux.isEmpty()) {
+                if(score.getStars()!=null){
+                    scaux.get().setStars(score.getStars());
+                }
+                if(score.getMessageText()!=null){
+                    scaux.get().setMessageText(score.getMessageText());
+                }
+                scoreRepository.save(scaux.get());
+                return scaux.get();
+            } else {
+                return score;
+            }
+        }else {
+            return score;
+        }
+    }
 }

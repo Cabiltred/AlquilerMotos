@@ -26,4 +26,5 @@ public class MessageRepository {
     
     public Message save(Message message) { return messageCrudRepository.save(message); }
     
+    public void delete(Message mesage) {messageCrudRepository.delete(mesage);}
 }

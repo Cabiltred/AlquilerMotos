@@ -42,4 +42,30 @@ public class MessageService {
             }
         }   
     }
+    
+    public Message update(Message message){
+        if(message.getIdMessage()!=null){
+            Optional<Message> maux = messageRepository.getidMessage(message.getIdMessage());
+            if(!maux.isEmpty()){
+                if(message.getMessageText()!=null){
+                    maux.get().setMessageText(message.getMessageText());
+                }
+                messageRepository.save(maux.get());
+                return maux.get();
+            }else{
+                return message;
+            }
+        }else{
+            return message;
+        }
+    }
+    
+    public boolean deleteMessage(int id){
+        Optional<Message> meaux= getidMessage(id);
+        if(!meaux.isEmpty()){
+            messageRepository.delete(meaux.get());
+            return true;
+        }
+        return false;
+    }    
 }

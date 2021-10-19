@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 
 @EntityScan(basePackages = {"com.devesoft.alquilerMotos.model"})
-@SpringBootApplication(exclude={SecurityAutoConfiguration.class})
+@SpringBootApplication
 public class AlquilerMotosApplication {
 
 	public static void main(String[] args) {

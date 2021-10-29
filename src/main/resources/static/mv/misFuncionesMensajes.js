@@ -1,3 +1,7 @@
+$(document).ready(function(){
+//instrucciones que se ejecutan cuando carga la página!
+    traerInformacion();
+});
 function traerInformacion(){
     $.ajax({
         url:"http://193.123.98.240/api/Message/all",
@@ -17,37 +21,38 @@ function traerInformacion(){
 }
 
 function pintarRespuesta(items){
-    let myTable="<table>";
-    myTable += '<th>' + "MENSAJE" + '</th>';
-    myTable += '<th>' + "MOTO" + '</th>';
-    myTable += '<th>' + "CLIENTE" + '</th>';
-    myTable += '<th>' + "EDITAR" + '</th>';
-    myTable += '<th>' + "BORRAR" + '</th>';
+    let myTable='<div class="container"><div class= "row">';
     for (i = 0; i < items.length; i++) {
-        myTable+="<tr>";
-        myTable+="<td>"+items[i].messageText+"</td>";
-        myTable+="<td>"+items[i].motorbike.name+"</td>";
-        myTable+="<td>"+items[i].client.name+"</td>";
-        myTable+= "<td> <button onclick='editarRegistro("+items[i].idMessage+")'>Editar</button>";
-        myTable+= "<td> <button onclick='borrarElemento("+items[i].idMessage+")'>Borrar</button>";
+        myTable+=`
+                    <div class="card m-2" style="width: 16rem;">
+                        <div class="card-body">
+                        <h5 class="card-title">${items[i].motorbike.name}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">${items[i].client.name}</h6>
+                        <p class="card-text"> ${items[i].messageText}
+                        </p>
+                        <button class="btn btn-primary" onclick='editarRegistro(${items[i].idMessage})'>Editar</button>
+                        <button class="btn btn-danger" onclick='borrarElemento(${items[i].idMessage})'>Borrar</button>
+                    </div>
+                </div>`
     }
-    myTable+="</table>";
+    myTable+='</div></div>';
     $("#resultado").append(myTable);
     pintarSelect();
     pintarSelect2();
 }
 
 function guardarInformacion(){
-    let selected = $("#moto").children(":selected").attr("value");
-	if (selected.length > 0) {
+    let selectedmoto = $("#moto").children(":selected").attr("value");
+    let selectedclient = $("#client").children(":selected").attr("value");
+	if (selectedmoto.length && selectedclient > 0) {
     let myData={
         id:$("#id").val(),
         messageText:$("#messageText").val(),
         client:{
-            idClient: selected
+            idClient: selectedclient
         },
         motorbike:{
-            id: selected
+            id: selectedmoto
         }
     };
     let datosJson=JSON.stringify(myData);
@@ -85,7 +90,7 @@ function pintarSelect(id){
     success : function(respuesta) {
 		console.log(respuesta);
 		$("#moto").empty();
-		miSelect='<option id="" >Seleccione...</option>';
+		miSelect='<option id="" >Seleccione Moto...</option>';
 		for (i=0; i<respuesta.length; i++){
             if (respuesta[i].id == id){
 				miSelect += '<option selected value='+ respuesta[i].id+ '>'+respuesta[i].name+'</option>';
@@ -112,7 +117,7 @@ function pintarSelect2(id){
     success : function(respuesta) {
 		console.log(respuesta);
 		$("#client").empty();
-		miSelect='<option id="" >Seleccione...</option>';
+		miSelect='<option id="" >Seleccione Cliente...</option>';
 		for (i=0; i<respuesta.length; i++){
             if (respuesta[i].idClient == id){
 				miSelect += '<option selected value='+ respuesta[i].idClient+ '>'+respuesta[i].name+'</option>';

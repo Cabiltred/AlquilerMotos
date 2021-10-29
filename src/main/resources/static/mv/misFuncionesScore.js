@@ -1,6 +1,10 @@
+$(document).ready(function(){
+//instrucciones que se ejecutan cuando carga la página!
+    traerInformacion();
+});
 function traerInformacion(){
     $.ajax({
-        url:"http://localhost/api/Score/all",
+        url:"http://193.123.98.240/api/Score/all",
         type:"GET",
         datatype:"JSON",
         contentType: "application/json; charset=utf-8",
@@ -17,20 +21,20 @@ function traerInformacion(){
 }
 
 function pintarRespuesta(items){
-    let myTable="<table>";
-    myTable += '<th>' + "CALIFICACIÓN" + '</th>';
-    myTable += '<th>' + "MENSAJE" + '</th>';
-    myTable += '<th>' + "ID RESERVACION" + '</th>';
-    myTable += '<th>' + "EDITAR" + '</th>';
+    let myTable='<div class="container"><div class= "row">';
     for (i = 0; i < items.length; i++) {
-        myTable+="<tr>";
-        myTable+="<td>"+items[i].stars+"</td>";
-        myTable+="<td>"+items[i].messageText+"</td>";
-        myTable+="<td>"+items[i].reservation.idReservation+"</td>";
-        myTable+= "<td> <button onclick='editarRegistro("+items[i].idScore+")'>Editar</button>";
-        myTable+="</tr>";
+        myTable+=`
+                    <div class="card m-2" style="width: 14rem;">
+                        <div class="card-body">
+                        <h5 class="card-title">${items[i].stars}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Reservación: ${items[i].reservation.idReservation}</h6>
+                        <p class="card-text"> ${items[i].messageText}
+                        </p>
+                        <button class="btn btn-primary" onclick='editarRegistro(${items[i].idScore})'>Editar</button>
+                    </div>
+                </div>`
     }
-    myTable+="</table>";
+    myTable+='</div></div>';
     $("#resultado").append(myTable);
     pintarSelect();
 }
@@ -42,7 +46,7 @@ function guardarInformacion(){
                 let selected = $("#idReservation").children(":selected").attr("value");
 
 		$.ajax({
-			url : 'http://localhost/api/Reservation/'+selected,
+			url : 'http://193.123.98.240/api/Reservation/'+selected,
 			type : 'GET',
 			dataType : 'json',
 			contentType: "application/json; charset=utf-8",
@@ -59,7 +63,7 @@ function guardarInformacion(){
 						};
 						let datosJson = JSON.stringify(misDatos);
 						$.ajax(
-						'http://localhost/api/Score/save',
+						'http://193.123.98.240/api/Score/save',
 						{data: datosJson,
 						type : 'POST',
 						dataType : 'json',
@@ -131,7 +135,7 @@ function guardarInformacion(){
 
 function pintarSelect(id){
 	$.ajax({
-    url : 'http://localhost/api/Reservation/all',
+    url : 'http://193.123.98.240/api/Reservation/all',
     type : 'GET',
     dataType : 'json',
     contentType: "application/json; charset=utf-8",
@@ -158,16 +162,16 @@ function pintarSelect(id){
 
 function editarRegistro(id){
     $.ajax({
-        url:'http://localhost/api/Score/'+id,
+        url:'http://193.123.98.240/api/Score/'+id,
         type:'GET',
         datatype:'JSON',
         contentType: "application/json; charset=utf-8",
 
         success:function(respuesta){
-            console.log(respuesta+ "url" + "http://localhost/api/Score/"+id);
+            console.log(respuesta+ "url" + "http://193.123.98.240/api/Score/"+id);
             let myTable = '<table>';
             $("#idScore").val(respuesta.idScore);
-			$("#calificar").val(respuesta.stars);
+            $("#calificar").val(respuesta.stars);
             $("#messageText").val(respuesta.messageText);
             //$("#idReservation").val(respuesta.idReservation);
             $("#idScore").attr("readonly", true);
@@ -187,7 +191,7 @@ function editarInformacion(){
     };
     let dataToSend=JSON.stringify(myData);
     $.ajax({
-        url:"http://localhost/api/Score/update",
+        url:"http://193.123.98.240/api/Score/update",
         type:"PUT",
         data:dataToSend,
         contentType:"application/JSON",

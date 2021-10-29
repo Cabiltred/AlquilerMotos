@@ -1,0 +1,65 @@
+    header {
+        margin: 30px;
+        padding: 15px;
+        text-align: center;
+        background-image: url("../img/ladrillosclaros.jpg");
+    }
+    #titulo {
+        font: bold 36px Verdana, sans-serif;
+        color: rgb(9, 90, 128);
+    }
+    p {
+        margin: 30px;
+        padding: 0px;
+        text-align: center;
+    }
+    body {
+        margin: 30px;
+        padding: 0px;
+        background-color: #E7E9EB;
+    }
+    
+    #aviso {
+        font: bold 20px Verdana, sans-serif;
+        color: rgb(93, 107, 170);
+    }
+    section {
+        font: bold 14px Verdana, sans-serif;
+        color: rgb(80, 120, 150);
+    }
+    #principal {
+        display: flex;
+        width: 100%;
+        text-align: center;
+        flex-wrap: wrap;
+    }
+    #principal > div {
+        height: 160px;
+        margin: 50px;
+    }
+    #enlace1 {
+        flex: 1;
+    }
+    #enlace2 {
+        flex: 1;
+    }
+    #enlace3 {
+        flex: 1;
+    }
+    #enlace4 {
+        flex: 1;
+    }
+    #enlace5 {
+        flex: 1;
+    }
+    #enlace6 {
+        flex: 1;
+    }
+    #enlace7 {
+        flex: 1;
+    }
+    footer {
+        margin: 30px;
+        padding: 15px;
+        text-align: center;
+    }

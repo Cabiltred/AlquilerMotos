@@ -1,6 +1,10 @@
+$(document).ready(function(){
+//instrucciones que se ejecutan cuando carga la página!
+    traerInformacion();
+});
 function traerInformacion(){
     $.ajax({
-        url:"http://193.123.98.240/api/Admin/all",
+        url:"http://localhost/api/Admin/all",
         type:"GET",
         datatype:"JSON",
         contentType: "application/json; charset=utf-8",
@@ -17,22 +21,20 @@ function traerInformacion(){
 }
 
 function pintarRespuesta(items){
-    let myTable="<table>";
-    myTable += '<th>' + "ID" + '</th>';
-    myTable += '<th>' + "NOMBRE" + '</th>';
-    myTable += '<th>' + "EMAIL" + '</th>';
-    myTable += '<th>' + "EDITAR" + '</th>';
-    myTable += '<th>' + "BORRAR" + '</th>';
+    let myTable='<div class="container"><div class= "row">';
     for (i = 0; i < items.length; i++) {
-        myTable+="<tr>";
-        myTable+="<td>"+items[i].idAdmin+"</td>";
-        myTable+="<td>"+items[i].name+"</td>";
-        myTable+="<td>"+items[i].email+"</td>";
-        myTable+= "<td> <button onclick='editarRegistro("+items[i].idAdmin+")'>Editar</button>";
-        myTable+= "<td> <button onclick='borrarElemento("+items[i].idAdmin+")'>Borrar</button>";
-        myTable+="</tr>";
+        myTable+=`
+                    <div class="card m-2" style="width: 18rem;">
+                        <div class="card-body">
+                        <h5 class="card-title">${items[i].idAdmin}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">${items[i].name}</h6>
+                        <p class="card-text"> ${items[i].email}</p>
+                        <button class="btn btn-primary" onclick='editarRegistro(${items[i].idAdmin})'>Editar</button>
+                        <button class="btn btn-danger" onclick='borrarElemento(${items[i].idAdmin})'>Borrar</button>
+                    </div>
+                </div>`
     }
-    myTable+="</table>";
+    myTable+='</div></div>';
     $("#resultado").append(myTable);
 }
 
@@ -45,7 +47,7 @@ function guardarInformacion(){
     };
     let datosJson=JSON.stringify(myData);
     $.ajax(
-        'http://193.123.98.240/api/Admin/save',
+        'http://localhost/api/Admin/save',
         {data:datosJson,
         type:"POST",
         datatype:"json",
@@ -66,13 +68,13 @@ function guardarInformacion(){
 
 function editarRegistro(dato){
     $.ajax({
-        url:'http://193.123.98.240/api/Admin/'+dato,
+        url:'http://localhost/api/Admin/'+dato,
         type:'GET',
         datatype:'JSON',
         contentType: "application/json; charset=utf-8",
 
         success:function(respuesta){
-            console.log(respuesta+ "url" + "http://193.123.98.240/api/Admin/"+dato);
+            console.log(respuesta+ "url" + "http://localhost/api/Admin/"+dato);
             let myTable = '<table>';
                 $("#idAdmin").val(respuesta.idAdmin);
                 $("#name").val(respuesta.name);
@@ -93,7 +95,7 @@ function actualizarInformacion(){
     };
     let dataToSend=JSON.stringify(myData);
     $.ajax(
-        'http://193.123.98.240/api/Admin/update',
+        'http://localhost/api/Admin/update',
         {data: dataToSend,
         type:'PUT',
         datatype:'JSON',
@@ -115,7 +117,7 @@ function actualizarInformacion(){
 
 function borrarElemento(registro){
     $.ajax({
-        url:'http://193.123.98.240/api/Admin/'+registro,
+        url:'http://localhost/api/Admin/'+registro,
         type:'DELETE',
         datatype:'JSON',
         contentType:"application/json; charset=utf-8",

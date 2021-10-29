@@ -1,6 +1,10 @@
+$(document).ready(function(){
+//instrucciones que se ejecutan cuando carga la página!
+    traerInformacion();
+});
 function traerInformacion(){
     $.ajax({
-        url:"http://localhost/api/Admin/all",
+        url:"http://localhost/api/Client/all",
         type:"GET",
         datatype:"JSON",
         contentType: "application/json; charset=utf-8",
@@ -17,46 +21,48 @@ function traerInformacion(){
 }
 
 function pintarRespuesta(items){
-    let myTable="<table>";
-    myTable += '<th>' + "ID" + '</th>';
-    myTable += '<th>' + "NOMBRE" + '</th>';
-    myTable += '<th>' + "EMAIL" + '</th>';
-    myTable += '<th>' + "EDITAR" + '</th>';
-    myTable += '<th>' + "BORRAR" + '</th>';
+    let myTable='<div class="container"><div class= "row">';
     for (i = 0; i < items.length; i++) {
-        myTable+="<tr>";
-        myTable+="<td>"+items[i].idAdmin+"</td>";
-        myTable+="<td>"+items[i].name+"</td>";
-        myTable+="<td>"+items[i].email+"</td>";
-        myTable+= "<td> <button onclick='editarRegistro("+items[i].idAdmin+")'>Editar</button>";
-        myTable+= "<td> <button onclick='borrarElemento("+items[i].idAdmin+")'>Borrar</button>";
-        myTable+="</tr>";
+        myTable+=`
+                    <div class="card m-2" style="width: 18rem;">
+                        <div class="card-body">
+                        <h5 class="card-title">${items[i].idClient}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">${items[i].name}</h6>
+                        <p class="card-text"> ${items[i].email}<br>
+                                               ${items[i].age}
+                        </p>
+                        <button class="btn btn-primary" onclick='editarRegistro(${items[i].idClient})'>Editar</button>
+                        <button class="btn btn-danger" onclick='borrarElemento(${items[i].idClient})'>Borrar</button>
+                    </div>
+                </div>`
     }
-    myTable+="</table>";
+    myTable+='</div></div>';
     $("#resultado").append(myTable);
 }
 
 function guardarInformacion(){
     let myData={
-        idAdmin:$("#idAdmin").val(),
+        idClient:$("#idClient").val(),
         name:$("#name").val(),
         email:$("#email").val(),
+        age:$("#age").val(),
         password:$("#password").val(),
     };
     let datosJson=JSON.stringify(myData);
     $.ajax(
-        'http://localhost/api/Admin/save',
+        'http://localhost/api/Client/save',
         {data:datosJson,
         type:"POST",
         datatype:"json",
         contentType: "application/json; charset=utf-8",
 
         statusCode : {
-            201 :  function() {
+			201 :  function() {
                 alert("Se ha guardado.");
-                $("#idAdmin").val(""),
+                $("#idClient").val(""),
                 $("#name").val(""),
                 $("#email").val(""),
+                $("#age").val(""),
                 $("#password").val(""),
                 traerInformacion();
             }
@@ -66,18 +72,19 @@ function guardarInformacion(){
 
 function editarRegistro(dato){
     $.ajax({
-        url:'http://localhost/api/Admin/'+dato,
+        url:'http://localhost/api/Client/'+dato,
         type:'GET',
         datatype:'JSON',
         contentType: "application/json; charset=utf-8",
 
         success:function(respuesta){
-            console.log(respuesta+ "url" + "http://localhost/api/Admin/"+dato);
+            console.log(respuesta+ "url" + "http://localhost/api/Client/"+dato);
             let myTable = '<table>';
-                $("#idAdmin").val(respuesta.idAdmin);
+                $("#idClient").val(respuesta.idClient);
                 $("#name").val(respuesta.name);
+                $("#age").val(respuesta.age);
                 $("#password").val(respuesta.password);
-                $("#idAdmin").attr("readonly", true);
+                $("#idClient").attr("readonly", true);
 	    },
         error : function(xhr, status) {
             alert('ha sucedido un problema:'+ status);
@@ -85,15 +92,16 @@ function editarRegistro(dato){
         });
 }
 
-function actualizarInformacion(){
+function editarInformacion(){
     let myData={
-        idAdmin:$("#idAdmin").val(),
+        idClient:$("#idClient").val(),
         name:$("#name").val(),
+        age:$("#age").val(),
         password:$("#password").val(),
     };
     let dataToSend=JSON.stringify(myData);
     $.ajax(
-        'http://localhost/api/Admin/update',
+        'http://localhost/api/Client/update',
         {data: dataToSend,
         type:'PUT',
         datatype:'JSON',
@@ -102,27 +110,28 @@ function actualizarInformacion(){
         statusCode : {
             201 :  function() {
                 alert("Se ha Actualizado.");
-                $("#idAdmin").val(""),
+                $("#idClient").val(""),
                 $("#name").val(""),
                 $("#email").val(""),
+                $("#age").val(""),
                 $("#password").val(""),
-                $("#idAdmin").attr("readonly", false);
+                $("#idClient").attr("readonly", false);
                 traerInformacion();
                 }
             }
         });
 }
 
-function borrarElemento(registro){
+function borrarElemento(id){
     $.ajax({
-        url:'http://localhost/api/Admin/'+registro,
+        url:'http://localhost/api/Client/'+id,
         type:'DELETE',
         datatype:'JSON',
         contentType:"application/json; charset=utf-8",
 
     statusCode : {
         204 :  function() {
-            alert("Eliminado el registro No:"+registro);
+            alert("Eliminado el registro No:"+id);
             traerInformacion();
         }
     }

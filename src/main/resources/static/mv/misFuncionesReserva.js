@@ -1,6 +1,10 @@
+$(document).ready(function(){
+//instrucciones que se ejecutan cuando carga la página!
+    traerInformacion();
+});
 function traerInformacion(){
     $.ajax({
-        url:"http://localhost/api/Reservation/all",
+        url:"http://193.123.98.240/api/Reservation/all",
         type:"GET",
         datatype:"JSON",
         contentType: "application/json; charset=utf-8",
@@ -17,53 +21,58 @@ function traerInformacion(){
 }
 
 function pintarRespuesta(items){
-    let myTable="<table>";
-    myTable += '<th>' + "ID" + '</th>';
-    myTable += '<th>' + "FECHA DE INICIO" + '</th>';
-    myTable += '<th>' + "FECHA DE ENTREGA" + '</th>';
-    myTable += '<th>' + "STATUS" + '</th>';
-    myTable += '<th>' + "MOTO" + '</th>';
-    myTable += '<th>' + "ID CLIENTE" + '</th>';
-    myTable += '<th>' + "CLIENTE" + '</th>';
-    myTable += '<th>' + "EMAIL CLIENTE" + '</th>';
-    myTable += '<th>' + "EDITAR" + '</th>';
-    myTable += '<th>' + "BORRAR" + '</th>';
+    let myTable='<div class="container"><div class= "row">';
     for (i = 0; i < items.length; i++) {
-        myTable+="<tr>";
-        myTable+="<td>"+items[i].idReservation+"</td>";
-        myTable+="<td>"+items[i].startDate+"</td>";
-        myTable+="<td>"+items[i].devolutionDate+"</td>";
-        myTable+="<td>"+items[i].status+"</td>";
-        myTable+="<td>"+items[i].motorbike.name+"</td>";
-        myTable+="<td>"+items[i].client.idClient+"</td>";
-        myTable+="<td>"+items[i].client.name+"</td>";
-        myTable+="<td>"+items[i].client.email+"</td>";
-        myTable+= "<td> <button onclick='editarRegistro("+items[i].idReservation+")'>Editar</button>";
-        myTable+= "<td> <button onclick='borrarElemento("+items[i].idReservation+")'>Borrar</button>";
+        myTable+=`
+                    <div class="card m-2" style="width: 18rem;">
+                        <div class="card-body">
+                        <h5 class="card-title">${items[i].idReservation}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">${items[i].status}</h6>
+                        <p class="card-text">  ${items[i].startDate.slice(0, 10)}<br>
+                                               ${items[i].devolutionDate.slice(0, 10)}<br>
+                                               ${items[i].motorbike.name}<br>
+                                               ${items[i].client.idClient} - ${items[i].client.name}<br>
+                                               ${items[i].client.email}
+                        </p>
+                        <button class="btn btn-primary" onclick='editarRegistro(${items[i].idReservation})'>Editar</button>
+                        <button class="btn btn-danger" onclick='borrarElemento(${items[i].idReservation})'>Borrar</button>
+                    </div>
+                </div>`
     }
-    myTable+="</table>";
+    myTable+='</div></div>';
     $("#resultado").append(myTable);
     pintarSelect();
     pintarSelect2();
+    fechaActual();
+}
+
+function fechaActual() {      
+    var currentDate = new Date()
+    var day = currentDate.getDate();
+    var month = currentDate.getMonth() + 1;
+    var year = currentDate.getFullYear();
+    var my_date = day+"/"+month+"/"+year;
+    document.getElementById("startDate").value=my_date;    
 }
 
 function guardarInformacion(){
-    let selected = $("#moto").children(":selected").attr("value");
-	if (selected.length > 0) {
+    let selectedmoto = $("#moto").children(":selected").attr("value");
+    let selectedclient = $("#client").children(":selected").attr("value");
+	if (selectedmoto.length && selectedclient > 0) {
     let myData={
         idReservation:$("#idReservation").val(),
         startDate:$("#startDate").val(),
         devolutionDate:$("#devolutionDate").val(),
         client:{
-            idClient: selected
+            idClient: selectedclient
         },
         motorbike:{
-            id: selected
+            id: selectedmoto
         }
     };
     let datosJson=JSON.stringify(myData);
     $.ajax(
-        'http://localhost/api/Reservation/save',
+        'http://193.123.98.240/api/Reservation/save',
         {data:datosJson,
         type:"POST",
         datatype:"json",
@@ -89,7 +98,7 @@ function guardarInformacion(){
 
 function pintarSelect(id){
 	$.ajax({
-    url : 'http://localhost/api/Motorbike/all',
+    url : 'http://193.123.98.240/api/Motorbike/all',
     type : 'GET',
     dataType : 'json',
     contentType: "application/json; charset=utf-8",
@@ -97,7 +106,7 @@ function pintarSelect(id){
     success : function(respuesta) {
 		console.log(respuesta);
 		$("#moto").empty();
-		miSelect='<option id="" >Seleccione...</option>';
+		miSelect='<option id="" >Seleccione Cliente...</option>';
 		for (i=0; i<respuesta.length; i++){
             if (respuesta[i].id == id){
 				miSelect += '<option selected value='+ respuesta[i].id+ '>'+respuesta[i].name+'</option>';
@@ -116,7 +125,7 @@ function pintarSelect(id){
 
 function pintarSelect2(id){
 	$.ajax({
-    url : 'http://localhost/api/Client/all',
+    url : 'http://193.123.98.240/api/Client/all',
     type : 'GET',
     dataType : 'json',
     contentType: "application/json; charset=utf-8",
@@ -124,7 +133,7 @@ function pintarSelect2(id){
     success : function(respuesta) {
 		console.log(respuesta);
 		$("#client").empty();
-		miSelect='<option id="" >Seleccione...</option>';
+		miSelect='<option id="" >Seleccione Moto...</option>';
 		for (i=0; i<respuesta.length; i++){
             if (respuesta[i].idClient == id){
 				miSelect += '<option selected value='+ respuesta[i].idClient+ '>'+respuesta[i].name+'</option>';
@@ -143,23 +152,23 @@ function pintarSelect2(id){
 
 function editarRegistro (id){
 	$.ajax({
-    url : 'http://localhost/api/Reservation/'+id,
+    url : 'http://193.123.98.240/api/Reservation/'+id,
     type : 'GET',
     dataType : 'json',
     contentType: "application/json; charset=utf-8",
 
     success : function(respuesta) {
-		console.log(respuesta+ "url" + "http://localhost/api/Reservation/"+id);
+		console.log(respuesta+ "url" + "http://193.123.98.240/api/Reservation/"+id);
         let myTable = '<table>';
             $("#idReservation").val(respuesta.idReservation);
-			const fecInicio = respuesta.startDate.slice(0, 10);
-		    $("#startDate").val(fecInicio);
+            const fecInicio = respuesta.startDate.slice(0, 10);
+	    $("#startDate").val(fecInicio);
             //$("#startDate").val(respuesta.startDate);
             const fecfinal = respuesta.devolutionDate.slice(0, 10);
-		    $("#devolutionDate").val(fecfinal);
-			//$("#devolutionDate").val(respuesta.devolutionDate);
+	    $("#devolutionDate").val(fecfinal);
+            //$("#devolutionDate").val(respuesta.devolutionDate);
             $("#client").val(respuesta.client.name);
-			$("#moto").val(respuesta.motorbike.name);
+            $("#moto").val(respuesta.motorbike.name);
             pintarSelect(respuesta.motorbike.id);
             pintarSelect2(respuesta.client.idClient);
             pintarSelectStatus(respuesta.status);
@@ -181,7 +190,7 @@ function editarInformacion(){
     };
     let dataToSend=JSON.stringify(myData);
     $.ajax({
-        url:"http://localhost/api/Reservation/update",
+        url:"http://193.123.98.240/api/Reservation/update",
         type:"PUT",
         data:dataToSend,
         contentType:"application/JSON",
@@ -203,7 +212,7 @@ function editarInformacion(){
 
 function pintarSelectStatus(status){
 	$("#status").empty();
-	statusSelect='<option id="" >Seleccione...</option>';
+	statusSelect='<option id="" >Seleccione Estado...</option>';
 	for (i=0; i<3; i++){
 		if(i==0){
 			if ("programmed" == status){
@@ -233,7 +242,7 @@ function pintarSelectStatus(status){
 
 function borrarElemento(id){
     $.ajax({
-        url:'http://localhost/api/Reservation/'+id,
+        url:'http://193.123.98.240/api/Reservation/'+id,
         type:'DELETE',
         datatype:'JSON',
         contentType:"application/json; charset=utf-8",

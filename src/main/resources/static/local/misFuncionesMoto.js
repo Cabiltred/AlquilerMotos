@@ -1,3 +1,7 @@
+$(document).ready(function(){
+//instrucciones que se ejecutan cuando carga la página!
+    traerInformacion();
+});
 function traerInformacion(){
     $.ajax({
         url:"http://localhost/api/Motorbike/all",
@@ -17,26 +21,23 @@ function traerInformacion(){
 }
 
 function pintarRespuesta(items){
-    let myTable="<table>";
-    myTable += '<th>' + "MARCA" + '</th>';
-    myTable += '<th>' + "NOMBRE" + '</th>';
-    myTable += '<th>' + "AÑO" + '</th>';
-    myTable += '<th>' + "DESCRIPCIÓN" + '</th>';
-    myTable += '<th>' + "CATEGORIA" + '</th>';
-    myTable += '<th>' + "EDITAR" + '</th>';
-    myTable += '<th>' + "BORRAR" + '</th>';
+    let myTable='<div class="container"><div class= "row">';
     for (i = 0; i < items.length; i++) {
-        myTable+="<tr>";
-        myTable+="<td>"+items[i].brand+"</td>";
-        myTable+="<td>"+items[i].name+"</td>";
-        myTable+="<td>"+items[i].year+"</td>";
-        myTable+="<td>"+items[i].description+"</td>";
-        myTable+="<td>"+items[i].category.name+"</td>";
-        myTable+= "<td> <button onclick='editarRegistro("+items[i].id+")'>Editar</button>";
-        myTable+= "<td> <button onclick='borrarElemento("+items[i].id+")'>Borrar</button>";
-        myTable+="</tr>";
+        myTable+=`
+                    <div class="card m-2" style="width: 18rem;">
+                        <div class="card-body">
+                        <h5 class="card-title">${items[i].brand}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">${items[i].name}</h6>
+                        <p class="card-text"> ${items[i].year}<br>
+                                               ${items[i].description}<br>
+                                               ${items[i].category.name}
+                        </p>
+                        <button class="btn btn-primary" onclick='editarRegistro(${items[i].id})'>Editar</button>
+                        <button class="btn btn-danger" onclick='borrarElemento(${items[i].id})'>Borrar</button>
+                    </div>
+                </div>`
     }
-    myTable+="</table>";
+    myTable+='</div></div>';
     $("#resultado").append(myTable);
     pintarSelect();
 }
@@ -91,7 +92,7 @@ function pintarSelect(id){
     success : function(respuesta) {
 		console.log(respuesta);
 		$("#cat").empty();
-		miSelect='<option id="" >Seleccione...</option>';
+		miSelect='<option id="" >Categoria...</option>';
 		for (i=0; i<respuesta.length; i++){
             if (respuesta[i].id == id){
 				miSelect += '<option selected value='+ respuesta[i].id+ '>'+respuesta[i].name+'</option>';
@@ -119,13 +120,13 @@ function editarRegistro (id){
 		console.log(respuesta+ "url" + "http://localhost/api/Motorbike/"+id);
         let miTabla = '<table>';
             $("#id").val(respuesta.id);
-			$("#brand").val(respuesta.brand);
+            $("#brand").val(respuesta.brand);
             $("#name").val(respuesta.name);
             $("#year").val(respuesta.year);
             $("#description").val(respuesta.description);
-			//$("#category").val(respuesta.category.name);
+            //$("#category").val(respuesta.category.name);
             $("#id").attr("readonly", true);
-			pintarSelect(respuesta.category.id);
+            pintarSelect(respuesta.category.id);
 	},
     error : function(xhr, status) {
         alert('ha sucedido un problema:'+ status);
@@ -155,8 +156,8 @@ function editarInformacion(){
 
     statusCode : {
 		201 :  function() {
-			alert("Se ha Actualizado correctamente");
-			$("#id").val(""),
+            alert("Se ha Actualizado correctamente");
+            $("#id").val(""),
             $("#brand").val(""),
             $("#name").val(""),
             $("#year").val(""),

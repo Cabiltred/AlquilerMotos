@@ -1,83 +1,41 @@
-<style type="text/css">
-    header {
-        margin: 30px;
-        padding: 15px;
-        text-align: center;
-        background-image: url("ladrillosclaros.jpg");
-    }
-    #titulo {
-        font: bold 26px Verdana, sans-serif;
-        color: rgb(9, 90, 128);
-    }
-    p {
-        margin: 30px;
-        padding: 0px;
-        text-align: center;
-    }
-    #aviso {
-        font: bold 20px Verdana, sans-serif;
-        color: rgb(93, 107, 170);
-    }
-    section {
-        font: bold 18px Verdana, sans-serif;
-        color: rgb(93, 107, 170);
-        margin: 30px;
-    }
-    #menu {
-        font: bold 18px Verdana, sans-serif;
-        color: rgb(93, 107, 170);
-        margin: 30px;
-    }
-    footer {
-        margin: 30px;
-        padding: 15px;
-        text-align: left;
-    }
-    #titulo {
-        font: bold 18px Verdana, sans-serif;
-        color: rgb(9, 90, 128);
-    }
-</style>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" 
+          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
+          crossorigin="anonymous">
     <title>Reto 3</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script type="text/javascript" src="misFuncionesReserva.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" 
+            integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" 
+            crossorigin="anonymous"></script>
+    <script type="text/javascript" src="mv/misFuncionesReserva.js"></script>
+    <link rel="stylesheet" href="css/misEstilos.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
-<body style="background-color: rgb(60, 197, 167);" onLoad="pintarSelect(), pintarSelect2()">
+<body onLoad="pintarSelect(), pintarSelect2(), fechaActual()">
     <header>
         <span id="titulo">Alquiler de Motocicletas</span>
     </header>
     <p id="aviso">Registra una Reservación</p>
-    <button id="menu" onclick="location.href='inicio.html'">.:: Menú Principal ::.</button>
-    <section id="principal">
-        <style>
-            myTable{
-                border-collapse: collapse;
-                border-spacing: 0;
-            }
-            th, td{
-                padding: 2px 10px;
-                border: 1px solid rgb(236, 245, 247);
-            }
-        </style>
-        <button onclick="traerInformacion()" style="padding: 2px;font: bold 12px Verdana, sans-serif; width:170px; height:28px;">Lista de Reservaciones</button><br>
+    <button class="btn btn-secondary" id="menu" onclick="location.href='inicio.html'">.:: Menú Principal ::.</button>
+    <section id="informacion">
         <br>
         <div id="resultado"></div><br>
-        <div>
-            <input type="text" id="idReservation" style="display: none">
-            <h4>Fecha de Inicio &nbsp;&nbsp;<input type="date" id="startDate" style="width:160px"></h4>
-            <h4>Fecha de Entrega &nbsp;&nbsp;<input type="date" id="devolutionDate" style="width:160px"></h4>
-            <h4>Cliente N° &nbsp;&nbsp;<select id="client" required style="width:160px"></select>
-            <h4>Nombre de la Moto &nbsp;&nbsp;<select id="moto" required style="width:160px"></select>
-            <select name="status" id="status" disabled ></select>
-            </div><br>
-        <button onclick="guardarInformacion()" style="padding: 2px;font: bold 12px Verdana, sans-serif; width:130px; height:28px;">Guardar</button>
-        <button onclick="editarInformacion()" style="padding: 2px;font: bold 12px Verdana, sans-serif; width:130px; height:28px;">Actualizar</button>
+        <div id="formato" class="form-group container text-center">
+            <input class = "form-control m-3" style="display: none; width: 18em;" type="number" id="idReservation">
+            <input class = "form-control m-3" style="width: 18em;" type="Date" id="startDate" disabled>
+            <input class = "form-control m-3" style="width: 18em;" type="Date" id="devolutionDate">
+            <select class = "form-control m-3" style="width: 18em;" id="client" required></select>
+            <select class = "form-control m-3" style="width: 18em;" id="moto" required></select>
+            <select class = "form-control m-3" style="width: 18em;" name="status" id="status" disabled ></select><br>
+        
+        <button class= "btn btn-primary mb-3" onclick="guardarInformacion()">Guardar</button>
+        <button class= "btn btn-primary mb-3" onclick="editarInformacion()">Actualizar</button>
+        </div>
     </section>
 </body>
 <footer>

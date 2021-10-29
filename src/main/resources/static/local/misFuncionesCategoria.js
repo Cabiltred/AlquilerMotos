@@ -1,3 +1,7 @@
+$(document).ready(function(){
+//instrucciones que se ejecutan cuando carga la página!
+    traerInformacion();
+});
 function traerInformacion(){
     $.ajax({
         url:"http://localhost/api/Category/all",
@@ -17,20 +21,19 @@ function traerInformacion(){
 }
 
 function pintarRespuesta(items){
-    let myTable="<table>";
-    myTable += '<th>' + "NOMBRE" + '</th>';
-    myTable += '<th>' + "DESCRIPCIÓN" + '</th>';
-    myTable += '<th>' + "EDITAR" + '</th>';
-    myTable += '<th>' + "BORRAR" + '</th>';
+    let myTable='<div class="container"><div class= "row">';
     for (i = 0; i < items.length; i++) {
-        myTable+="<tr>";
-        myTable+="<td>"+items[i].name+"</td>";
-        myTable+="<td>"+items[i].description+"</td>";
-        myTable+= "<td> <button onclick='editarRegistro("+items[i].id+")'>Editar</button>";
-        myTable+= "<td> <button onclick='borrarElemento("+items[i].id+")'>Borrar</button>";
-        myTable+="</tr>";
+        myTable+=`
+                    <div class="card m-2" style="width: 14rem;">
+                        <div class="card-body">
+                        <h5 class="card-title">${items[i].name}</h5>
+                        <p class="card-text">  ${items[i].description}</p>
+                        <button class="btn btn-primary" onclick='editarRegistro(${items[i].id})'>Editar</button>
+                        <button class="btn btn-danger" onclick='borrarElemento(${items[i].id})'>Borrar</button>
+                    </div>
+                </div>`
     }
-    myTable+="</table>";
+    myTable+='</div></div>';
     $("#resultado").append(myTable);
 }
 
@@ -71,7 +74,7 @@ function editarRegistro(id){
             console.log(respuesta+ "url" + "http://localhost/api/Category/"+id);
             let myTable = '<table>';
             $("#idCategory").val(respuesta.id);
-			$("#name").val(respuesta.name);
+            $("#name").val(respuesta.name);
             $("#description").val(respuesta.description);
             $("#idCategory").attr("readonly", true);
 	    },

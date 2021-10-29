@@ -5,6 +5,8 @@
 package com.devesoft.alquilerMotos.web;
 
 import com.devesoft.alquilerMotos.model.Reservation;
+import com.devesoft.alquilerMotos.model.custom.CountClient;
+import com.devesoft.alquilerMotos.model.custom.StatusAmount;
 import com.devesoft.alquilerMotos.service.ReservationService;
 import java.util.List;
 import java.util.Optional;
@@ -51,5 +53,20 @@ public class ReservationController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public boolean deleteidReservation (@PathVariable("id") int id){
         return reservationService.deleteReservation(id);
+    }
+    
+    @GetMapping("/report-dates/{dateOne}/{dateTwo}")
+    public List<Reservation> getDatesReport(@PathVariable("dateOne")String d1, @PathVariable("dateTwo")String d2){
+        return reservationService.getReservationPeriod(d1, d2);
+    }
+    
+    @GetMapping("/report-status")
+    public StatusAmount getStatusAmountStatus(){
+        return reservationService.getStatusReport();
+    }
+    
+    @GetMapping("/report-clients")
+    public List<CountClient> getCountClients(){
+        return reservationService.getTopClient();
     }
 }

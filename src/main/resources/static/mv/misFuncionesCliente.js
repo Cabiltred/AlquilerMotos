@@ -1,3 +1,7 @@
+$(document).ready(function(){
+//instrucciones que se ejecutan cuando carga la página!
+    traerInformacion();
+});
 function traerInformacion(){
     $.ajax({
         url:"http://193.123.98.240/api/Client/all",
@@ -17,24 +21,22 @@ function traerInformacion(){
 }
 
 function pintarRespuesta(items){
-    let myTable="<table>";
-    myTable += '<th>' + "ID" + '</th>';
-    myTable += '<th>' + "NOMBRE" + '</th>';
-    myTable += '<th>' + "CORREO ELECTRONICO" + '</th>';
-    myTable += '<th>' + "EDAD" + '</th>';
-    myTable += '<th>' + "EDITAR" + '</th>';
-    myTable += '<th>' + "BORRAR" + '</th>';
+    let myTable='<div class="container"><div class= "row">';
     for (i = 0; i < items.length; i++) {
-        myTable+="<tr>";
-        myTable+="<td>"+items[i].idClient+"</td>";
-        myTable+="<td>"+items[i].name+"</td>";
-        myTable+="<td>"+items[i].email+"</td>";
-        myTable+="<td>"+items[i].age+"</td>";
-        myTable+= "<td> <button onclick='editarRegistro("+items[i].idClient+")'>Editar</button>";
-        myTable+= "<td> <button onclick='borrarElemento("+items[i].idClient+")'>Borrar</button>";
-        myTable+="</tr>";
+        myTable+=`
+                    <div class="card m-2" style="width: 18rem;">
+                        <div class="card-body">
+                        <h5 class="card-title">${items[i].idClient}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">${items[i].name}</h6>
+                        <p class="card-text"> ${items[i].email}<br>
+                                               ${items[i].age}
+                        </p>
+                        <button class="btn btn-primary" onclick='editarRegistro(${items[i].idClient})'>Editar</button>
+                        <button class="btn btn-danger" onclick='borrarElemento(${items[i].idClient})'>Borrar</button>
+                    </div>
+                </div>`
     }
-    myTable+="</table>";
+    myTable+='</div></div>';
     $("#resultado").append(myTable);
 }
 

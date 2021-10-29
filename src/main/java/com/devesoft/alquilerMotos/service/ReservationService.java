@@ -5,11 +5,17 @@
 package com.devesoft.alquilerMotos.service;
 
 import com.devesoft.alquilerMotos.model.Reservation;
+import com.devesoft.alquilerMotos.model.custom.CountClient;
+import com.devesoft.alquilerMotos.model.custom.StatusAmount;
 import com.devesoft.alquilerMotos.repository.ReservationRepository;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
+import java.util.Date;
 
 /**
  *
@@ -66,12 +72,41 @@ public class ReservationService {
         }
     }
     
-        public boolean deleteReservation(int id){
+    public boolean deleteReservation(int id){
         Optional<Reservation> rvaux= getidReservation(id);
         if(!rvaux.isEmpty()){
             reservationRepository.delete(rvaux.get());
             return true;
         }
         return false;
+    }
+    
+    public List<CountClient> getTopClient(){
+        return reservationRepository.getTopClient();
+    }
+    
+    public StatusAmount getStatusReport(){
+        List<Reservation> completed=reservationRepository.getReservationsByStatus("completed");
+        List<Reservation> cancelled=reservationRepository.getReservationsByStatus("cancelled");
+        
+        StatusAmount statAmt=new StatusAmount(completed.size(), cancelled.size());
+        return statAmt;
+    }
+    
+    public List<Reservation> getReservationPeriod(String d1, String d2){
+        SimpleDateFormat parser=new SimpleDateFormat("yyyy-MM-dd");
+        Date dateOne = new Date();
+        Date dateTwo = new Date();
+        try {
+            dateOne = parser.parse(d1);
+            dateTwo = parser.parse(d2);
+        }catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if (dateOne.before(dateTwo)) {
+            return reservationRepository.getReservationPeriod(dateOne, dateTwo);
+        } else {
+            return new ArrayList<>();
+        }
     }
 }

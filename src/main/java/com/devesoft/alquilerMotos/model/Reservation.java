@@ -23,10 +23,10 @@ public class Reservation implements Serializable{
     @Column(name= "idReservation")
     private Integer idReservation;
     
-    @Column(name = "startDate", length = 250)
+    @Column(name = "startDate")
     private Date startDate;
     
-    @Column(name = "devolutionDate", length = 250)
+    @Column(name = "devolutionDate")
     private Date devolutionDate;
     
     @Column(name="status")

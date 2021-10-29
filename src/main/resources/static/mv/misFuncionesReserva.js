@@ -43,7 +43,6 @@ function pintarRespuesta(items){
     $("#resultado").append(myTable);
     pintarSelect();
     pintarSelect2();
-    fechaActual();
 }
 
 function fechaActual() {      

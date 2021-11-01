@@ -47,7 +47,7 @@ function pintarRespuesta(items){
 
 function fechaActual() {      
     var currentDate = new Date()
-    var day = currentDate.getDate();
+    var day = ((currentDate.getDate())>=10)? (currentDate.getDate()) : '0' + (currentDate.getDate());
     var month = currentDate.getMonth() + 1;
     var year = currentDate.getFullYear();
     var my_date = year+"-"+month+"-"+day;

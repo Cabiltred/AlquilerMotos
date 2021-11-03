@@ -105,7 +105,7 @@ function pintarSelect(id){
     success : function(respuesta) {
 		console.log(respuesta);
 		$("#moto").empty();
-		miSelect='<option id="" >Seleccione Cliente...</option>';
+		miSelect='<option id="" >Seleccione Moto...</option>';
 		for (i=0; i<respuesta.length; i++){
             if (respuesta[i].id == id){
 				miSelect += '<option selected value='+ respuesta[i].id+ '>'+respuesta[i].name+'</option>';
@@ -132,7 +132,7 @@ function pintarSelect2(id){
     success : function(respuesta) {
 		console.log(respuesta);
 		$("#client").empty();
-		miSelect='<option id="" >Seleccione Moto...</option>';
+		miSelect='<option id="" >Seleccione Cliente...</option>';
 		for (i=0; i<respuesta.length; i++){
             if (respuesta[i].idClient == id){
 				miSelect += '<option selected value='+ respuesta[i].idClient+ '>'+respuesta[i].name+'</option>';
@@ -223,13 +223,13 @@ function pintarSelectStatus(status){
 			if ("cancelled" == status){
 				statusSelect += '<option selected value="cancelled">cancelado</option>';
 			} else {
-				statusSelect += '<option value="cancelled">cancelado</option>';
+				statusSelect += '<option value="cancelled">Cancelado</option>';
 			}
 		} else if(i==2){
 			if ("realized" == status){
-				statusSelect += '<option selected value="realized">Realizado</option>';
+				statusSelect += '<option selected value="completed">Realizado</option>';
 			} else {
-				statusSelect += '<option value="realized">Realizado</option>';
+				statusSelect += '<option value="realized">Completado</option>';
 			}
 		}
 	}
